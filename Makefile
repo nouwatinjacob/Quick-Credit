@@ -9,7 +9,7 @@ migrate:
 install:
 	pip install -r requirements.txt
 
-runserver:
+start-app:
 	$(PYTHON_MANAGE) runserver
 
 test:

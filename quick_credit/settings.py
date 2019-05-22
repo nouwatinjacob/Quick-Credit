@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import datetime
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'authentication',
 ]
 
 REST_FRAMEWORK = {
@@ -174,3 +178,6 @@ STATIC_URL = "/static/"
 
 # Set the url to work even without slash
 APPEND_SLASH=True
+
+# declare user model to be used
+AUTH_USER_MODEL = 'authentication.CustomUser'
