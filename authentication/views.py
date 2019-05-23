@@ -35,3 +35,27 @@ class CreateUser(APIView):
             "status":400, 
             "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            login(request, user)
+            serializer = TokenSerializer(data={
+                # using drf jwt utility functions to generate a token
+                "token": jwt_encode_handler(
+                    jwt_payload_handler(user)
+                )})
+            serializer.is_valid()
+            return Response({
+                "status": 200,
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "status": 400,
+                "error": "Wrong credentials"
+            }, status=status.HTTP_400_BAD_REQUEST)
